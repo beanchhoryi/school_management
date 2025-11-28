@@ -1,0 +1,107 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block content %}
+    <section class="content">
+        <!-- THIS DISPLAYS THE MESSAGE -->
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-success alert-dismissible">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        <!-- Small boxes (Stat box) -->
+        <div class="box box-primary">
+            <div class="box-header">
+              <i class="ion ion-clipboard"></i>
+              <h3 class="box-title">Teacher Form</h3>
+
+            </div><!-- /.box-header -->
+
+            <div class="box-body">
+                <div style="overflow-x: auto;">
+                    <table class="table table-striped" style="table-layout: fixed; width: 100%;">
+                        <thead>
+                          <tr>
+                            <th style="width: 8%;">ID</th>
+                            <th style="width: 15%;">Firstname</th>
+                            <th style="width: 15%;">Lastname</th>
+                            <th style="width: 10%;">Gender</th>
+                            <th style="width: 15%;">Date of Birth</th>
+                            <th style="width: 10%;">Address</th>
+                            <th style="width: 10%;">Salary</th>
+                            <th style="width: 20%;">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            {% for teacher in teacher %}
+                              <tr>
+                                <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ teacher.id }}</td>
+                                <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ teacher.first_name }}</td>
+                                <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ teacher.last_name}}</td>
+                                <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ teacher.gender }}</td>
+                                <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ teacher.dob }}</td>
+                                <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ teacher.address }}</td>
+                                <td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ teacher.salary }}</td>
+                                <td>
+                                    {% if perms.App_School.change_teacher %}
+                                        <a href="/teacher/update/{{ student.id }}" class="btn btn-primary btn-sm">
+                                            <span class="glyphicon glyphicon-pencil"></span> Edit
+                                        </a>
+                                    {% endif %}
+                                    <a class="btn btn-success btn-sm">
+                                        <span class="glyphicon glyphicon-eye-open"></span> View
+                                    </a>
+                                    {% if perms.App_School.delete_teacher %}
+                                        <a href="/teacher/delete/{{ teacher.id }}" class="btn btn-danger btn-sm" methods="get">
+                                            <span class="glyphicon glyphicon-trash"></span> Delete
+                                        </a>
+                                    {% endif %}
+                                </td>
+                              </tr>
+                            {% endfor %}
+                        </tbody>
+                      </table>
+                </div>
+            </div>
+
+            <div class="box-footer clearfix no-border">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <p style="margin: 0;">Item Count: {{count_item}}</p>
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <p style="margin: 0;">Page {{ teacher.number }} of {{ teacher.paginator.num_pages }}</p>
+                        <ul class="pagination" style="margin: 0; display: flex; align-items: center;">
+                            {% if teacher.has_previous %}
+                                <li><a href="?page=1" style="color:white;background-color:green">&laquo; first</a></li>
+                                <li><a href="?page={{ teacher.previous_page_number }}" style="color:white;background-color:green">previous</a> </li>
+                            {% else %}
+                                <li><a style="color:white;background-color:gray">first</a> </li>
+                            {% endif %}
+
+                            {% for i in teacher.paginator.page_range %}
+                                {% if teacher.number == i %}
+                                    <li><a href="#" style="color:white;background-color: blue;">{{ i }}</a></li>
+                                {% else %}
+                                    <li><a href="?page={{ i }}" style="color:black;">{{ i }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if teacher.has_next %}
+                                <li><a href="?page={{ teacher.next_page_number }}" style="color:white;background-color:green">next</a></li>
+                                <li><a href="?page={{ teacher.paginator.num_pages }}" style="color:white;background-color:green">last &raquo;</a></li>
+                            {% else %}
+                                <li><a style="color:white;background-color:gray">last</a> </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    {% if perms.App_School.add_teacher %}
+                        <a href="/teacher/show" class="btn btn-default pull-right text-bold text-blue" role="button" style="margin: 0;">
+                            <icon class="fa fa-plus"></icon> Add
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

@@ -1,0 +1,27 @@
+version: '3.9'
+services:
+  db:
+    image: postgres:15
+    container_name: "postgres_school_management"
+    restart: always
+    environment:
+      POSTGRES_DB: school_management
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Password123@
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+  web:
+    container_name: "school_management_django_app"
+    build: .
+    restart: always
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+volumes:
+  postgres_data:
