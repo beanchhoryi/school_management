@@ -1,6 +1,8 @@
 import os
 from pathlib import Path
 
+from django.conf import settings
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -12,13 +14,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-)@qe*qe5u#$y0@3npui)c!%v%)0m=le+00z%+my)iwxxg8xao9'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+from dotenv import load_dotenv
+load_dotenv()
 DEBUG = False
 
-ALLOWED_HOSTS = ["192.168.96.128"]
-
+ALLOWED_HOSTS = [
+    "*",
+    "chhoryibean.dpdns.org",
+    "www.chhoryibean.dpdns.org"
+]
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -63,16 +69,41 @@ WSGI_APPLICATION = 'school_management.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'school_management',
-        'USER': 'postgres',
-        'PASSWORD': 'Password123@',
-        'HOST': 'db',
-        'PORT': '5432',
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'school_management',
+#         'USER': 'postgres',
+#         'PASSWORD': 'Password123@',
+#         'HOST': 'db',
+#         'PORT': '5432',
+#     }
+# }
+
+# Database configuration
+if settings.DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': "school_management",
+            'USER': "postgres",
+            'PASSWORD': "Password123@",
+            'HOST': "localhost",
+            'PORT': "5434",
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.getenv('POSTGRES_DB'),
+            'USER': os.getenv("POSTGRES_USER"),
+            'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+            'HOST': os.getenv("POSTGRES_HOST", "db"),   # docker-compose service name
+            'PORT': os.getenv("POSTGRES_PORT", "5432"),
+        }
+    }
+
 
 
 # Password validation
