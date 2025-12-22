@@ -81,13 +81,15 @@ WSGI_APPLICATION = 'school_management.wsgi.application'
 # }
 
 # Database configuration
-if settings.DEBUG:
+DEBUG = False
+
+if not settings.DEBUG:  # Changed from 'if settings.DEBUG:'
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
             'NAME': "school_management",
             'USER': "postgres",
-            'PASSWORD': "Password123@",
+            'PASSWORD': "your_password",
             'HOST': "localhost",
             'PORT': "5434",
         }
@@ -99,11 +101,10 @@ else:
             'NAME': os.getenv('POSTGRES_DB'),
             'USER': os.getenv("POSTGRES_USER"),
             'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
-            'HOST': os.getenv("POSTGRES_HOST", "db"),   # docker-compose service name
+            'HOST': os.getenv("POSTGRES_HOST", "db"),
             'PORT': os.getenv("POSTGRES_PORT", "5432"),
         }
     }
-
 
 
 # Password validation
