@@ -81,15 +81,13 @@ WSGI_APPLICATION = 'school_management.wsgi.application'
 # }
 
 # Database configuration
-DEBUG = False
-
 if not settings.DEBUG:  # Changed from 'if settings.DEBUG:'
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
             'NAME': "school_management",
             'USER': "postgres",
-            'PASSWORD': "your_password",
+            'PASSWORD': "Password123@",
             'HOST': "localhost",
             'PORT': "5434",
         }
