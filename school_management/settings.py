@@ -1,6 +1,5 @@
 import os
 from pathlib import Path
-
 from django.conf import settings
 import dj_database_url
 
@@ -68,6 +67,23 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'school_management.wsgi.application'
 
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+
+DATABASE_URL = os.environ.get('DATABASE_URL')
+if DATABASE_URL:
+    DATABASES['default'] = dj_database_url.config(
+        default=DATABASE_URL,
+        conn_max_age=600,
+        conn_health_checks=True,
+    )
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
@@ -107,9 +123,6 @@ WSGI_APPLICATION = 'school_management.wsgi.application'
 #         }
 #     }
 
-DATABASES = {
-    'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
-}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
