@@ -73,14 +73,10 @@ WSGI_APPLICATION = 'school_management.wsgi.application'
 
 # Database
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('POSTGRES_DB'),
-        'USER': os.getenv("POSTGRES_USER"),
-        'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
-        'HOST': os.getenv("POSTGRES_HOST", "db"),
-        'PORT': os.getenv("POSTGRES_PORT", "5432"),
-    }
+    'default': dj_database_url.config(
+        default='postgresql://postgres:postgres@localhost:5432/school_db',
+        conn_max_age=600
+    )
 }
 
 # Database
