@@ -2,6 +2,9 @@ import os
 from pathlib import Path
 
 from django.conf import settings
+import dj_database_url
+
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -81,29 +84,32 @@ WSGI_APPLICATION = 'school_management.wsgi.application'
 # }
 
 # Database configuration
-if not settings.DEBUG:  # Changed from 'if settings.DEBUG:'
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': "school_management",
-            'USER': "postgres",
-            'PASSWORD': "Password123@",
-            'HOST': "localhost",
-            'PORT': "5434",
-        }
-    }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.getenv('POSTGRES_DB'),
-            'USER': os.getenv("POSTGRES_USER"),
-            'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
-            'HOST': os.getenv("POSTGRES_HOST", "db"),
-            'PORT': os.getenv("POSTGRES_PORT", "5432"),
-        }
-    }
+# if not settings.DEBUG:  # Changed from 'if settings.DEBUG:'
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#             'NAME': "school_management",
+#             'USER': "postgres",
+#             'PASSWORD': "Password123@",
+#             'HOST': "localhost",
+#             'PORT': "5434",
+#         }
+#     }
+# else:
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.postgresql',
+#             'NAME': os.getenv('POSTGRES_DB'),
+#             'USER': os.getenv("POSTGRES_USER"),
+#             'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+#             'HOST': os.getenv("POSTGRES_HOST", "db"),
+#             'PORT': os.getenv("POSTGRES_PORT", "5432"),
+#         }
+#     }
 
+DATABASES = {
+    'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
