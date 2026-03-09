@@ -73,50 +73,50 @@ TEMPLATES = [
 WSGI_APPLICATION = 'school_management.wsgi.application'
 
 # Database
-DATABASES = {
-    'default': dj_database_url.config(
-        default='postgresql://postgres:postgres@localhost:5432/school_db',
-        conn_max_age=600
-    )
-}
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         default='postgresql://postgres:postgres@localhost:5432/school_db',
+#         conn_max_age=600
+#     )
+# }
 
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'school_management',
-#         'USER': 'postgres',
-#         'PASSWORD': 'Password123@',
-#         'HOST': 'db',
-#         'PORT': '5432',
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': os.getenv('POSTGRES_DB'),
+#         'USER': os.getenv("POSTGRES_USER"),
+#         'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+#         'HOST': os.getenv("POSTGRES_HOST", "db"),
+#         'PORT': os.getenv("POSTGRES_PORT", "5432"),
 #     }
 # }
 
 # Database configuration
-# if not settings.DEBUG:  # Changed from 'if settings.DEBUG:'
-#     DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#             'NAME': "school_management",
-#             'USER': "postgres",
-#             'PASSWORD': "Password123@",
-#             'HOST': "localhost",
-#             'PORT': "5434",
-#         }
-#     }
-# else:
-#     DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.postgresql',
-#             'NAME': os.getenv('POSTGRES_DB'),
-#             'USER': os.getenv("POSTGRES_USER"),
-#             'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
-#             'HOST': os.getenv("POSTGRES_HOST", "db"),
-#             'PORT': os.getenv("POSTGRES_PORT", "5432"),
-#         }
-#     }
+if not settings.DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': "school_management",
+            'USER': "postgres",
+            'PASSWORD': "Password123@",
+            'HOST': "localhost",
+            'PORT': "5434",
+        }
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.getenv('POSTGRES_DB'),
+            'USER': os.getenv("POSTGRES_USER"),
+            'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+            'HOST': os.getenv("POSTGRES_HOST", "db"),
+            'PORT': os.getenv("POSTGRES_PORT", "5432"),
+        }
+    }
 
 
 # Password validation

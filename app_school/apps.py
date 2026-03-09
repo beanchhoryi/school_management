@@ -7,4 +7,3 @@ class AppSchoolConfig(AppConfig):
     def ready(self):
         from .utils.init_admin import create_admin
         create_admin()
-
